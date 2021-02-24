@@ -19,6 +19,8 @@ namespace DoorControl
             _UserValidation = vali;
             _entryNotify = entryNotify;
             _Alarm = alarm;
+
+            _state.State = DoorControlState.DoorClosed;
         }
 
         public void RequestEntry(int id) 
@@ -46,22 +48,21 @@ namespace DoorControl
             switch(_state.State)
             {
                 case DoorControlState.DoorClosed:
-                {
-                        _door.Close();
-                        _Alarm.RaiseAlarm();
-                        _state.State = DoorControlState.DoorBreached;
-                        break;
-                }
+                    _door.Close();
+                    _Alarm.RaiseAlarm();
+                    _state.State = DoorControlState.DoorBreached;
+                    break;
+                
                 case DoorControlState.DoorOpening:
-                {
-                        _door.Close();
-                        _state.State = DoorControlState.DoorClosing;
-                        break;
-                }
+                
+                    _door.Close();
+                    _state.State = DoorControlState.DoorClosing;
+                    break;
+                
                 default:
-                {
-                        throw new ArgumentException("Invalid state");
-                }
+                
+                    throw new ArgumentException("Invalid state");
+                
             }
         }
     }
