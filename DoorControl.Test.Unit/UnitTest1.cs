@@ -7,6 +7,7 @@ namespace DoorControl.Test.Unit
         [SetUp]
         public void Setup()
         {
+            //Hello
         }
 
         [Test]
