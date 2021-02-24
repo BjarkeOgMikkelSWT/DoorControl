@@ -65,5 +65,20 @@ namespace DoorControl
                 
             }
         }
+
+        public void DoorClosed()
+        {
+            switch (_state.State)
+            {
+                case DoorControlState.DoorClosing:
+                    _state.State = DoorControlState.DoorClosed;
+                    break;
+
+                default:
+
+                    throw new ArgumentException("Invalid state");
+
+            }
+        }
     }
 }

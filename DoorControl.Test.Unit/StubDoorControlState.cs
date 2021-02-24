@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DoorControl.Test.Unit
 {
-    internal class MockDoorControlState : IDoorControlState
+    internal class StubDoorControlState : IDoorControlState
     {
         public DoorControlState State { get; set; }
     }
