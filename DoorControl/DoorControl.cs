@@ -12,10 +12,6 @@ namespace DoorControl
         private readonly IAlarm _Alarm;
         private readonly IUserValidation _UserValidation;
 
-
-
-
-
         public DoorControl(IDoorControlState state, IDoor door,  IUserValidation vali, IEntryNotification entryNotify, IAlarm alarm)
         {
             _state = state;
@@ -27,9 +23,19 @@ namespace DoorControl
 
         public void RequestEntry(int id) 
         {
-            if(_UserValidation.ValidateEntryRequest(id))
+            if(_state.State == DoorClosed)
             {
-                
+                if (_UserValidation.ValidateEntryRequest(id))
+                {
+                    _door.Open();
+                    _entryNotify.NotifyEntryGranted();
+                    _state.State = DoorOpening;
+
+                }
+                else
+                {
+                    _entryNotify.NotifyEntryDenied();
+                }
             }
         }
 

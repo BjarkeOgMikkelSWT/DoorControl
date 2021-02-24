@@ -6,7 +6,8 @@ namespace DoorControl
 {
     public enum DoorControlState
     {
-        DoorOpened,
+        DoorOpening,
+        DoorClosing,
         DoorClosed,
         DoorBreached
     };
