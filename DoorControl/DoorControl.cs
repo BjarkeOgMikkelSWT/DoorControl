@@ -23,25 +23,46 @@ namespace DoorControl
 
         public void RequestEntry(int id) 
         {
-            if(_state.State == DoorClosed)
+            if(_state.State != DoorControlState.DoorClosed)
             {
-                if (_UserValidation.ValidateEntryRequest(id))
-                {
-                    _door.Open();
-                    _entryNotify.NotifyEntryGranted();
-                    _state.State = DoorOpening;
+                throw new ArgumentException("Invalid state to call in");
+            }
 
-                }
-                else
-                {
-                    _entryNotify.NotifyEntryDenied();
-                }
+            if (_UserValidation.ValidateEntryRequest(id))
+            {
+                _door.Open();
+                _entryNotify.NotifyEntryGranted();
+                _state.State = DoorControlState.DoorOpening;
+
+            }
+            else
+            {
+                _entryNotify.NotifyEntryDenied();
             }
         }
 
         public void DoorOpened()
         {
-
+            switch(_state.State)
+            {
+                case DoorControlState.DoorClosed:
+                {
+                        _door.Close();
+                        _Alarm.RaiseAlarm();
+                        _state.State = DoorControlState.DoorBreached;
+                        break;
+                }
+                case DoorControlState.DoorOpening:
+                {
+                        _door.Close();
+                        _state.State = DoorControlState.DoorClosing;
+                        break;
+                }
+                default:
+                {
+                        throw new ArgumentException("Invalid state");
+                }
+            }
         }
     }
 }
