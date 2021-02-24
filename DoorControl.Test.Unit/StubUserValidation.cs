@@ -8,7 +8,7 @@ namespace DoorControl.Test.Unit
     {
         private readonly int _targetID;
 
-        internal StubUserValidation(int targetID)
+        internal StubUserValidation(int targetID = 42)
         {
             _targetID = targetID;
         }
