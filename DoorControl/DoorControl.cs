@@ -4,7 +4,7 @@ using System.Text;
 
 namespace DoorControl
 {
-    class DoorControl
+    public class DoorControl
     {
         private readonly IDoorControlState _state;
         private readonly IDoor _door;
